@@ -14,21 +14,24 @@ def fetch_weather_data(location, api_key):
 
 def display_weather(weather_data, location):
     if weather_data:
-        main = weather_data['main']
-        weather = weather_data['weather'][0]
-        wind = weather_data['wind']
+        main = weather_data.get('main', {})
+        weather = weather_data.get('weather', [{}])[0]
+        wind = weather_data.get('wind', {})
 
         print(f"Weather in {location}:")
-        print(f"Temperature: {main['temp']} °C")
-        print(f"Conditions: {weather['description']}")
-        print(f"Humidity: {main['humidity']}%")
-        print(f"Wind Speed: {wind['speed']} m/s")
+        print(f"Temperature: {main.get('temp', 'N/A')} °C")
+        print(f"Conditions: {weather.get('description', 'N/A')}")
+        print(f"Humidity: {main.get('humidity', 'N/A')}%")
+        print(f"Wind Speed: {wind.get('speed', 'N/A')} m/s")
     else:
         print(f"No weather data found for {location}")
 
 if __name__ == "__main__":
-    api_key = 'your_api_key'
-    location = input("Enter city name or coordinates (latitude,longitude): ")
+    api_key = 'your_api_key' 
+
+ 
+    location = input("Enter city name or coordinates (latitude,longitude): ").strip()
 
     weather_data = fetch_weather_data(location, api_key)
     display_weather(weather_data, location)
+
